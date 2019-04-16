@@ -2,7 +2,7 @@
   "name": "lastfm",
   "description": "LastFM data consumption",
   "version": "1.0.0",
-  "author": "Francisco Sanchez",
+  "author": "ryumishima44",
   "license": "MIT",
   "private": true,
   "scripts": {
