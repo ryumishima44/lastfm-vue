@@ -1,2 +1,2 @@
-# lasfm-vue
+# lastfm-vue
 lastfm vue consumption
