@@ -2,6 +2,8 @@
   #app
     img(src='./assets/logo.png')
     h1 Last FM vue
+    select(v-model='selectedCountry')
+      option(v-for='country in countries' v-bind:value='country.value') {{ country.name }}
     ul
       artist(v-for='artist in artists' v-bind:artist="artist" v-bind:key="artist.mbid")
 </template>
@@ -13,19 +15,32 @@
     name: 'app',
     data () {
       return {
-        artists: []
+        artists: [],
+        countries: [
+          {name:'España', value:'spain'},
+          {name:'Colombnia', value:'colombia'},
+          {name:'Argentina', value:'argentina'}
+        ],
+        selectedCountry:'spain'
       }
     },
     components: {
       Artist
     },
-    mounted: function() {
+    methods: {
+      refreshArtists() {
       const self = this
-      getArtists()
+      getArtists(this.selectedCountry)
       .then(function(artists) {
         self.artists = artists
       })
-    }
+      }
+    },
+    watch: {
+      selectedCountry: function() {
+        this.refreshArtists()
+      }
+    },
   }
 </script>
 
