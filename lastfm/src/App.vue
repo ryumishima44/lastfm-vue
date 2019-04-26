@@ -4,12 +4,14 @@
     h1 Last FM vue
     select(v-model='selectedCountry')
       option(v-for='country in countries' v-bind:value='country.value') {{ country.name }}
+    loader(v-show='loading')
     ul
       artist(v-for='artist in artists' v-bind:artist="artist" v-bind:key="artist.mbid")
 </template>
 
 <script>
   import Artist from './components/Artist.vue'
+  import Loader from './components/Loader.vue'
   import getArtists from './api'
   export default {
     name: 'app',
@@ -18,23 +20,31 @@
         artists: [],
         countries: [
           {name:'España', value:'spain'},
-          {name:'Colombnia', value:'colombia'},
+          {name:'Colombia', value:'colombia'},
           {name:'Argentina', value:'argentina'}
         ],
-        selectedCountry:'spain'
+        selectedCountry: 'argentina',
+        loading: true
       }
     },
     components: {
-      Artist
+      Artist,
+      Loader
     },
     methods: {
       refreshArtists() {
       const self = this
+      this.loading = true
+      this.artists = []
       getArtists(this.selectedCountry)
       .then(function(artists) {
+        self.loading = false
         self.artists = artists
       })
       }
+    },
+    mounted(){
+      this.refreshArtists()
     },
     watch: {
       selectedCountry: function() {
